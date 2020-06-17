@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.comtrade.view.OffersForm">
+  <grid id="27dc6" binding="jPanel" layout-manager="GridLayoutManager" row-count="10" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="64" y="20" width="689" height="440"/>
+    </constraints>
+    <properties>
+      <background color="-3487030"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <scrollpane id="60f" binding="scrolPane1">
+        <constraints>
+          <grid row="8" column="3" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="2bbd4" class="javax.swing.JTable" binding="table1" default-binding="true">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="67b08" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="197" height="18"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="OFFER NAME"/>
+        </properties>
+      </component>
+      <component id="b6966" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="197" height="18"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="OFFER PRICE"/>
+        </properties>
+      </component>
+      <component id="303e0" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="197" height="18"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="INGREDIENT"/>
+        </properties>
+      </component>
+      <component id="f881f" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="197" height="18"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="QUANTITY"/>
+        </properties>
+      </component>
+      <component id="d5eb4" class="javax.swing.JTextField" binding="tfOfferName">
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="d091a" class="javax.swing.JTextField" binding="tfOfferPrice">
+        <constraints>
+          <grid row="1" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="bea1c" class="javax.swing.JComboBox" binding="cbIngredient">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="c9d5b" class="javax.swing.JTextField" binding="tfQuantity">
+        <constraints>
+          <grid row="6" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="14861" class="javax.swing.JButton" binding="btnAddIngredient">
+        <constraints>
+          <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="197" height="30"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="ADD INGREDIENT"/>
+        </properties>
+      </component>
+      <component id="80053" class="javax.swing.JButton" binding="btnRemoveIngredient">
+        <constraints>
+          <grid row="7" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="REMOVE INGREDIENT"/>
+        </properties>
+      </component>
+      <component id="4fd38" class="javax.swing.JButton" binding="SAVENEWOFFERButton" default-binding="true">
+        <constraints>
+          <grid row="9" column="3" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="SAVE NEW OFFER"/>
+        </properties>
+      </component>
+      <component id="53fcc" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="CHOOSE OFFER"/>
+        </properties>
+      </component>
+      <component id="50732" class="javax.swing.JComboBox" binding="cbChooseOffer">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="cd9a9" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="PRICE:"/>
+        </properties>
+      </component>
+      <component id="61e14" class="javax.swing.JLabel" binding="lblOfferPrice">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <scrollpane id="89105" binding="scrolPane2">
+        <constraints>
+          <grid row="5" column="0" row-span="5" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="5f8a" class="javax.swing.JTable" binding="table2" default-binding="true">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="29d88" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="OFFER TYPE"/>
+        </properties>
+      </component>
+      <component id="4405" class="javax.swing.JComboBox" binding="cbType">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="78338" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="INGREDIENT MEASURE TYPE"/>
+        </properties>
+      </component>
+      <component id="de580" class="javax.swing.JComboBox" binding="cbIngredientMeasureType">
+        <constraints>
+          <grid row="5" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <hspacer id="2b95e">
+        <constraints>
+          <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="b674b">
+        <constraints>
+          <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <component id="d5092" class="javax.swing.JLabel" binding="lblOfferPhoto">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="8549d" class="javax.swing.JButton" binding="CHOOSEPHOTOButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="SELECT IMAGE"/>
+        </properties>
+      </component>
+      <component id="8f011" class="javax.swing.JButton" binding="btnSetPhoto">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="SET PHOTO"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
