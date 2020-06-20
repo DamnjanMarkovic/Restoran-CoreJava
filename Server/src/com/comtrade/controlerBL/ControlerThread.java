@@ -1,5 +1,8 @@
 package com.comtrade.controlerBL;
 
+import com.code.constants.ConstantsBLC;
+import com.code.constants.ConstantsFC;
+import com.code.domain.User;
 import com.code.transferClass.TransferClass;
 import com.comtrade.threads.ClientThread;
 
@@ -47,28 +50,27 @@ public class ControlerThread {
     }
 
     public void informAllClients(TransferClass transferClass, ClientThread clientThread) throws IOException {
-        for (ClientThread client: listClients) {
-            if (!clientThread.equals(client)){
-                clientThread.send(transferClass);
 
-            }
+
+        for (ClientThread client: listClients) {
+            client.send(transferClass);
         }
     }
 
 
     public  void informOnlySendingClient(TransferClass transferClass, ClientThread clientThread) throws IOException {
+
         for (ClientThread client: listClients) {
             if (client.equals(clientThread)){
                 client.send(transferClass);
-
             }
         }
     }
 
-    public void removeFromList(ClientThread clientThread){
+    public void removeFromList(ClientThread clientThread) throws IOException {
         int numberOfLoggedInUsers = 0;
-
         String nameUserExit = "";
+
         for (ClientThread nit:listClients             ) {
             if (nit.equals(clientThread)) {
                 nameUserExit = clientThread.getName();
@@ -81,6 +83,12 @@ public class ControlerThread {
                 namesRest.append(nit.getName()).append(", ");
                 numberOfLoggedInUsers ++;
         }
+//        for (ClientThread ct:listClients             ) {
+//            TransferClass transferClass = TransferClass.create("CHAT", ConstantsFC.CHAT, ConstantsBLC.CHAT_LEAVING_MESSAGE);
+//            transferClass.setMessage("chat se salje");
+//            System.out.println("Korisniku "+ ct.getName() + " poslata poruka da se korisnik "+ nameUserExit + " izlogovao");
+//            ct.send(transferClass);
+//        }
 
         if (numberOfLoggedInUsers>0) {
             String finalNames = namesRest.substring(0, namesRest.length() - 2);
@@ -88,9 +96,11 @@ public class ControlerThread {
         } else {
             JOptionPane.showMessageDialog(null, nameUserExit + " logged out.\nNo more users logged in.");
         }
+
+
+
+
     }
-
-
 
 
 }

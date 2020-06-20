@@ -31,6 +31,12 @@ public class ControlerUser implements CommandBase{
             case RETURN_ROLES:
                 genericSystemOperation = new ReturnRolesServis();
                 break;
+            case GET_LOGGED_USERS:
+                genericSystemOperation = new ReturnLoggedUsers(clientThread);
+                break;
+            case GET_WAITER_NAME:
+                genericSystemOperation = new ReturnWaiterName(clientThread);
+                break;
 
             default:
                 break;

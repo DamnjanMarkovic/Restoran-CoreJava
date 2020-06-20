@@ -1066,4 +1066,48 @@ public class Broker {
 
         return  exists;
     }
+
+    public String getManagerNameBasedOnWaiterID(int getid_user) {
+        String managerName = null;
+        int idRestaurant = 0;
+        int idManager = 0;
+        int numberOfUsernameRepetitions = 0;
+        String sql = "SELECT id_restaurant FROM user_restaurant WHERE id_user = ?";
+        try {
+            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+            preparedStatement.setInt(1, getid_user);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.first()) {
+                idRestaurant = resultSet.getInt("id_restaurant");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sql = "SELECT id_user FROM user_restaurant WHERE id_restaurant = ? and id_user not in (1,?)";
+        try {
+            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+            preparedStatement.setInt(1, idRestaurant);
+            preparedStatement.setInt(2, getid_user);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.first()) {
+                idManager = resultSet.getInt("id_user");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sql = "SELECT userFirstName FROM user WHERE user.id_user = ?";
+        try {
+            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+            preparedStatement.setInt(1, idManager);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.first()) {
+                managerName = resultSet.getString("userFirstName");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  managerName;
+
+
+    }
 }

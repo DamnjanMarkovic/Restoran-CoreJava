@@ -35,7 +35,7 @@ public class ClientThread extends Thread {
     public void run() {
         while(true) {
             try {
-
+                System.out.println("hvata");
             ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
             TransferClass transferClass = (TransferClass) objectInputStream.readObject();
             clientHandle(transferClass);
@@ -57,15 +57,14 @@ public class ClientThread extends Thread {
 
     }
 
+
     public  void send(TransferClass transferClass) {
         // TODO Auto-generated method stub
         try {
+            System.out.println("salje");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
             objectOutputStream.writeObject(transferClass);
-            //objectOutputStream.flush();
-
-
-
+//            objectOutputStream.flush();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -95,6 +94,7 @@ public class ClientThread extends Thread {
                 break;
             case CHAT:
                 commandBase =new ControlerChat(this);
+
                 break;
             case BILL:
                 commandBase =new ControlerBill();
@@ -103,6 +103,7 @@ public class ClientThread extends Thread {
                 commandBase =new ControlerImages();
                 break;
             default:
+//                commandBase = new ControlerChat(this);
                 break;
         }
         commandBase.execute(transferClass);

@@ -12,6 +12,8 @@ public class TransferClass implements Serializable {
     private ConstantsFC constantsFC;
     private ConstantsBLC constantsBLC;
     private Object response;
+    private String specialMessage;
+
 
     public static TransferClass create(Object request, ConstantsFC constantsFC, ConstantsBLC constantsBLC) {
         TransferClass transferClass = new TransferClass();
@@ -19,6 +21,14 @@ public class TransferClass implements Serializable {
         transferClass.setConstantsBLC(constantsBLC);
         transferClass.setConstantsFC(constantsFC);
         return transferClass;
+    }
+
+    public String getSpecialMessage() {
+        return specialMessage;
+    }
+
+    public void setSpecialMessage(String specialMessage) {
+        this.specialMessage = specialMessage;
     }
 
     public Object getRequest() {

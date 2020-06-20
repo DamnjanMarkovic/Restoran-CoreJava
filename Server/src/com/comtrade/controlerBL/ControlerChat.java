@@ -2,7 +2,10 @@ package com.comtrade.controlerBL;
 
 import com.code.transferClass.TransferClass;
 import com.comtrade.systemOperation.GenericSystemOperation;
+import com.comtrade.systemOperation.chat.RemoveWronOrders;
+import com.comtrade.systemOperation.user.ReturnLoggedUsers;
 import com.comtrade.systemOperation.chat.PostMessageService;
+import com.comtrade.systemOperation.chat.ReturnEmpty;
 import com.comtrade.systemOperation.chat.ReturnStaffService;
 import com.comtrade.threads.ClientThread;
 
@@ -31,9 +34,15 @@ public class ControlerChat implements CommandBase {
             case CHAT_RETURN_RESTAURANT_STAFF:
                 genericSystemOperation = new ReturnStaffService(clientThread);
                 break;
+            case CHAT_TESTING:
+                genericSystemOperation = new ReturnLoggedUsers(clientThread);
+                break;
+            case REMOVE_WRONG_ORDER:
+                genericSystemOperation = new RemoveWronOrders(clientThread);
+                break;
 
             default:
-                break;
+                genericSystemOperation = new ReturnEmpty(clientThread);
         }
         genericSystemOperation.executeSystemOperation(transferClass);
     }

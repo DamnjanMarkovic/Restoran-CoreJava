@@ -31,10 +31,6 @@ public class ServerForm extends JFrame{
         lblServerImage.setIcon(imageIcon1);
 
 
-
-
-
-
         btnStartServer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
