@@ -2,6 +2,7 @@ package com.comtrade.threads;
 
 import com.code.domain.User;
 import com.code.transferClass.TransferClass;
+import com.code.transferClass.TransferClassPlus;
 import com.comtrade.controlerBL.*;
 
 import javax.swing.*;
@@ -37,6 +38,7 @@ public class ClientThread extends Thread {
             try {
                 System.out.println("hvata");
             ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
+//                TransferClassPlus transferClassPlus = (TransferClassPlus) objectInputStream.readObject();
             TransferClass transferClass = (TransferClass) objectInputStream.readObject();
             clientHandle(transferClass);
             } catch (IOException e) {

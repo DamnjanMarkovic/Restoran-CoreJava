@@ -1,15 +1,12 @@
 package com.comtrade.communicationClient;
 
-import com.code.constants.ConstantsFC;
-import com.code.constants.Constants_IP_Port;
 import com.code.domain.User;
 import com.code.transferClass.TransferClass;
+import com.code.transferClass.TransferClassPlus;
 import com.comtrade.Threads.ThreadRead;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.Callable;
 
 public class CommunicationClient {
     private static final CommunicationClient instance = new CommunicationClient();
@@ -19,6 +16,15 @@ public class CommunicationClient {
     private User user;
     private ObjectInputStream objectInputStream;
     private Thread comClientThread;
+    private TransferClassPlus transferClassPlus;
+
+    public TransferClassPlus getTransferClassPlus() {
+        return transferClassPlus;
+    }
+
+    public void setTransferClassPlus(TransferClassPlus transferClassPlus) {
+        this.transferClassPlus = transferClassPlus;
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -44,57 +50,89 @@ public class CommunicationClient {
         return instance;
     }
 
-    public void send(TransferClass transferClass) throws IOException {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-        objectOutputStream.writeObject(transferClass);
-        objectOutputStream.flush();
-    }
-    public TransferClass read() throws Exception {
+
+//
+//    public synchronized void send(TransferClassPlus transferClassPlus, ObjectOutputStream objectOutputStream) throws IOException {
+//        System.out.println("stize u send");
+//
+//        threadWriteFinal = new ThreadWriteFinal(objectOutputStream, transferClassPlus);
+//
+//    }
+//    public synchronized TransferClass read1(Socket socket) throws Exception {
+//
+//        threadReadFinal = new ThreadReadFinal(socket, transferClassPlus);
+//        return getInstance().getTransferClassPlus().getTransferClass();
+//    }
 
 
-        ThreadRead threadRead = new ThreadRead(socket, user);
-        threadRead.start();
-        threadRead.join();
-        return getInstance().getTransferClass();
-    }
 
 
-//    public synchronized void send (TransferClass transferClass) throws IOException  {
+
+
+
+
+//    public synchronized void send (TransferClass transferClass) throws IOException, InterruptedException {
 //        while (!transfer) {
 //            System.out.println("ulazi u send");
 //            try {
 //                System.out.println("ide u send cekanje");
 //                wait();
-//
 //            } catch (InterruptedException e)  {
 //                Thread.currentThread().interrupt();
 //            }
 //        }
+//        System.out.println("send menja transfer bulijan u false");
 //        transfer = false;
-//        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-//        objectOutputStream.writeObject(transferClass);
-//        objectOutputStream.flush();
+//
+//        this.transferClass = transferClass;
 //        notifyAll();
 //    }
 //
-//    public synchronized TransferClass read() {
+//    public synchronized TransferClass receive() {
 //        while (transfer) {
-//            System.out.println("ulazi u read");
+//            System.out.println("receive 1");
 //            try {
-//                System.out.println("ide u read cekanje");
+//                System.out.println("receive wait");
 //                wait();
-//                ThreadRead threadRead = new ThreadRead(socket, user);
-//                threadRead.run();
-//                return getInstance().getTransferClass();
-//            } catch (InterruptedException e)  {
+//            } catch (InterruptedException e) {
 //                Thread.currentThread().interrupt();
 //
+//                System.out.println("receive menja transfer bulijan u true");
+//                transfer = true;
+//                System.out.println("receive notify all");
+//                notifyAll();
+//                System.out.println(transferClass.getRequest());
+//                System.out.println(transferClass.getResponse());
+//                return transferClass;
+//            } catch (Exception e) {
+//                System.out.println("krc");
 //            }
 //        }
-//        transfer = true;
+//            return transferClass;
 //
-//        notifyAll();
-//        return transferClass;
+//    }
+
+
+    public void send(TransferClass transferClass) throws IOException {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectOutputStream.writeObject(transferClass);
+        objectOutputStream.flush();
+    }
+
+    public  TransferClass read() throws Exception {
+
+        ThreadRead threadRead = new ThreadRead(user, socket);
+        Thread thread = new Thread(threadRead);
+        thread.run();
+        thread.join();
+        return getInstance().getTransferClass();
+    }
+
+
+//    public synchronized TransferClass read() throws Exception {
+//
+//        threadReadFinal = new ThreadReadFinal(objectInputStream, transferClassPlus);
+//        return getInstance().getTransferClassPlus().getTransferClass();
 //    }
 
 
