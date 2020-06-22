@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -1109,5 +1110,66 @@ public class Broker {
         return  managerName;
 
 
+    }
+
+
+    public Integer startLoggingUserReturnID(String getuserFirstName) throws SQLException {
+        int id_usersLogging = 0;
+        String sql = "INSERT INTO usersLogging (userFirstName) VALUES (?)";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement =
+                    SQLConnection.getInstance().getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, getuserFirstName);
+            int rowAffected = preparedStatement.executeUpdate();
+            if (rowAffected != 0) {
+                resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.first()) {
+                    id_usersLogging = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Data not saved in table " + e.getMessage());
+        }
+        return id_usersLogging;
+    }
+
+
+
+    public void logOffUserWithID(Timestamp timeLogoff, int idLoggedIn) throws SQLException {
+        String sql = "UPDATE usersLogging SET userLoggedOff = ? WHERE id_usersLogging = ?";
+        try {
+            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+            preparedStatement.setTimestamp(1, timeLogoff);
+            preparedStatement.setString(2, String.valueOf(idLoggedIn));
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new SQLException("Data not saved in table " + e.getMessage());
+        }
+    }
+
+    public Object getLoggingUserList(String userFirstName) {
+        List<DTOUserLogging>listUserLogging = new ArrayList<>();
+        DTOUserLogging dtoUserLogging = null;
+
+        String sql = "SELECT * FROM usersLogging where userFirstName = ?";
+
+        try {
+            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+            preparedStatement.setString(1, userFirstName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                dtoUserLogging = new DTOUserLogging (resultSet.getInt("id_usersLogging"), resultSet.getString("userFirstName"),
+                        resultSet.getTimestamp("userLoggedIn"), resultSet.getTimestamp("userLoggedOff"));
+                listUserLogging.add(dtoUserLogging);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return listUserLogging;
     }
 }

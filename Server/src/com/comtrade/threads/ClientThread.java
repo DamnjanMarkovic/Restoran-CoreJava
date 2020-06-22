@@ -1,27 +1,29 @@
 package com.comtrade.threads;
 
-import com.code.domain.User;
+import com.code.constants.ConstantsBLC;
+import com.code.constants.ConstantsFC;
 import com.code.transferClass.TransferClass;
-import com.code.transferClass.TransferClassPlus;
 import com.comtrade.controlerBL.*;
 
-import javax.swing.*;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class ClientThread extends Thread {
     private Socket clientSocket;
+    private int idLoggedUser;
     private List<ClientThread> listClients = new ArrayList<>();
 
     public void setClientSocket(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
+
+
 
     public Socket getClientSocket() {
         return clientSocket;
@@ -31,42 +33,58 @@ public class ClientThread extends Thread {
         this.clientSocket = clientSocket;
     }
 
+    public int getIdLoggedUser() {
+        return idLoggedUser;
+    }
+
+    public void setIdLoggedUser(int idLoggedUser) {
+        this.idLoggedUser = idLoggedUser;
+    }
 
     @Override
     public void run() {
+
         while(true) {
             try {
-                System.out.println("hvata");
             ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
-//                TransferClassPlus transferClassPlus = (TransferClassPlus) objectInputStream.readObject();
             TransferClass transferClass = (TransferClass) objectInputStream.readObject();
             clientHandle(transferClass);
             } catch (IOException e) {
 
                     try {
                         clientSocket.close();
+                        TransferClass transferClass = TransferClass.create(null, ConstantsFC.CHAT, ConstantsBLC.LOGGING_OFF);
+                        transferClass.setMessage(null);
+                        transferClass.setSpecialMessage(String.valueOf(this.idLoggedUser));
+                        clientHandle(transferClass);
                         ControlerThread.getInstance().removeFromList(this);
+                        clientSocket.close();
                         break;
-                    } catch (IOException ioException) {
+
+                    } catch (IOException | SQLException ioException) {
                         ioException.printStackTrace();
                     }
 
             } catch (ClassNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+
             }
+
         }
+
 
     }
 
 
     public  void send(TransferClass transferClass) {
+
         // TODO Auto-generated method stub
         try {
-            System.out.println("salje");
+
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
             objectOutputStream.writeObject(transferClass);
-//            objectOutputStream.flush();
+            objectOutputStream.flush();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -74,7 +92,7 @@ public class ClientThread extends Thread {
 
     }
 
-    private  void clientHandle(TransferClass transferClass) throws IOException {
+    private void clientHandle(TransferClass transferClass) throws IOException {
 
 
         CommandBase commandBase = null;
@@ -96,13 +114,15 @@ public class ClientThread extends Thread {
                 break;
             case CHAT:
                 commandBase =new ControlerChat(this);
-
                 break;
             case BILL:
                 commandBase =new ControlerBill();
                 break;
             case IMAGES:
                 commandBase =new ControlerImages();
+                break;
+            case EMPTY:
+                commandBase =new ControlerEmpty();
                 break;
             default:
 //                commandBase = new ControlerChat(this);

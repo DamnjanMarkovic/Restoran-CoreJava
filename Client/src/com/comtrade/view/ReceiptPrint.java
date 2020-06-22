@@ -13,6 +13,8 @@ import com.code.constants.Constant_Offert_Type;
 import com.code.constants.ConstantsImages;
 import com.code.constants.ConstantsInfoWrongInput;
 import com.code.domain.Order;
+import com.code.domain.Restaurant;
+import com.code.domain.User;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.border.DashedBorder;
@@ -34,7 +36,7 @@ public class ReceiptPrint extends JDialog{
     private JTextField tfCompanyName;
     private String customerName;
     private String companyName;
-    private String companyPIB;
+    private int companyPIB;
     private java.util.List<Order> completeOrderList = new ArrayList<>();
     private static String pdfFileName = "Customer receipt.pdf";
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,Font.BOLD);
@@ -43,13 +45,13 @@ public class ReceiptPrint extends JDialog{
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 16,Font.BOLD);
     Random random = new Random();
 
-    public ReceiptPrint(String waiterName, String restaurantName, String paymentType,double reduction, double finalPrice,
+    public ReceiptPrint(User user, Restaurant restaurant, String paymentType, double reduction, double finalPrice,
                         List<Order> completeOrderList, double finalTax, double totalPrice){
         setContentPane(jPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setBounds(100,200,400,400);
         createFieldsForPrinting();
-
+        Random random = new Random();
 
 
 
@@ -59,11 +61,21 @@ public class ReceiptPrint extends JDialog{
                 if (!tfCompanyName.getText().isEmpty() && !tfCompanyPIB.getText().isEmpty() && !tfCustomerName.getText().isEmpty() &&
                         tfCompanyName.getText() != null && tfCompanyPIB.getText() != null && tfCustomerName.getText() != null) {
 
-                    customerName = tfCustomerName.getText();
-                    companyName = tfCompanyName.getText();
-                    companyPIB = tfCompanyPIB.getText();
-                    printFileToPDF(waiterName, restaurantName, paymentType, reduction, finalPrice, customerName, companyName, companyPIB, completeOrderList, finalTax, totalPrice);
-                    dispose();
+                    try {
+                        companyPIB = Integer.parseInt(tfCompanyPIB.getText());
+                        if (companyPIB > 10000001 && companyPIB < 99999999) {
+                            customerName = tfCustomerName.getText();
+                            companyName = tfCompanyName.getText();
+                            printFileToPDF(user.getuserFirstName(), restaurant.getName_restaurant(), paymentType, reduction, finalPrice,
+                                    customerName, companyName, companyPIB, completeOrderList, finalTax, totalPrice);
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "PIB mora biti ceo broj izmedju 10000001 i 99999999");
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "PIB mora biti ceo broj izmedju 10000001 i 99999999");
+                    }
+
                 } else {
                     int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
                     JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
@@ -81,7 +93,7 @@ public class ReceiptPrint extends JDialog{
 
 
     private void printFileToPDF(String waiterName, String restaurantName, String paymentType, double reduction, double finalPrice,
-                                String customerName, String companyName, String companyPIB, List<Order>completeOrderList, double finalTax, double totalPrice) {
+                                String customerName, String companyName, int companyPIB, List<Order>completeOrderList, double finalTax, double totalPrice) {
         Document document = new Document();
         try
         {
@@ -91,7 +103,6 @@ public class ReceiptPrint extends JDialog{
             addStartPage(document, waiterName, restaurantName, customerName, companyName, companyPIB);
             createTable(document, completeOrderList);
             addEndPage(document, paymentType, reduction, finalPrice, finalTax, totalPrice);
-
             document.close();
 
         } catch (DocumentException | FileNotFoundException e)
@@ -114,7 +125,6 @@ public class ReceiptPrint extends JDialog{
         preface.add(new Paragraph("Tax: " + finalTax + ".",  smallBold));
         addEmptyLine(preface, 1);
 
-
         preface.add(new Paragraph("Final price: " + finalPrice + "." ,  smallBold));
         addEmptyLine(preface, 1);
 
@@ -131,7 +141,7 @@ public class ReceiptPrint extends JDialog{
     }
 
 
-    private void addStartPage(Document document, String waiterName, String restaurantName, String customerName, String companyName, String companyPIB) throws DocumentException {
+    private void addStartPage(Document document, String waiterName, String restaurantName, String customerName, String companyName, int companyPIB) throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
         preface.add(new Paragraph("RECEIPT FOR THE CUSTOMER ", catFont));
@@ -164,11 +174,6 @@ public class ReceiptPrint extends JDialog{
         PdfPTable table = new PdfPTable(4);
 
         table.setHorizontalAlignment(Element.ALIGN_CENTER);
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
-
 
         PdfPCell c1 = new PdfPCell(new Phrase("Restaurant offer name"));
 
@@ -207,7 +212,7 @@ public class ReceiptPrint extends JDialog{
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 
             table.addCell(c1);
-            c1 = new PdfPCell(new Phrase(String.valueOf(Math.round(BillForm.getPriceWithTax(order) * order.getQuantity())*100.0/100.0)));
+            c1 = new PdfPCell(new Phrase(String.valueOf(order.getQuantity() * order.getOffer().getRestaurant_menu_price())));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 
             table.addCell(c1);

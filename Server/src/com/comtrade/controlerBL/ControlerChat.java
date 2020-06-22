@@ -2,11 +2,8 @@ package com.comtrade.controlerBL;
 
 import com.code.transferClass.TransferClass;
 import com.comtrade.systemOperation.GenericSystemOperation;
-import com.comtrade.systemOperation.chat.RemoveWronOrders;
+import com.comtrade.systemOperation.chat.*;
 import com.comtrade.systemOperation.user.ReturnLoggedUsers;
-import com.comtrade.systemOperation.chat.PostMessageService;
-import com.comtrade.systemOperation.chat.ReturnEmpty;
-import com.comtrade.systemOperation.chat.ReturnStaffService;
 import com.comtrade.threads.ClientThread;
 
 public class ControlerChat implements CommandBase {
@@ -40,7 +37,18 @@ public class ControlerChat implements CommandBase {
             case REMOVE_WRONG_ORDER:
                 genericSystemOperation = new RemoveWronOrders(clientThread);
                 break;
-
+            case CHAT_LEAVING_MESSAGE:
+                genericSystemOperation = new ChatLeavingMessage(clientThread);
+                break;
+            case LOGGING_OFF:
+                genericSystemOperation = new LoogingOff(clientThread);
+                break;
+            case UPDATE_LOGGED_USERS_NAMES:
+                genericSystemOperation = new UpdateLoggedUsersNames(clientThread);
+                break;
+            case OWNER_SENDING_MESSAGE:
+                genericSystemOperation = new OwnerSendingMessage(clientThread);
+                break;
             default:
                 genericSystemOperation = new ReturnEmpty(clientThread);
         }

@@ -37,12 +37,13 @@ public class BillForm extends JDialog {
     private JLabel lblUserPhoto;
     private JButton printReceiptButton;
     private DefaultTableModel dtm = new DefaultTableModel();
-    private int happyHourStart;
-    private int happyHourEnd;
+//    private int happyHourStart;
+//    private int happyHourEnd;
     private double totalPrice;
     private double finalPrice;
-    double specialReduction;
-    double reductionForPaymentType;
+    double specialReduction = 0.0;
+    double reductionForPaymentType = 0.0;
+    double happyHourReduction = 0.0;
     private String finalIDOrderListInString;
     private List<Integer>finalIDOrdersList = new ArrayList<>();
     private List<Order>completeOrderList = new ArrayList<>();
@@ -51,9 +52,9 @@ public class BillForm extends JDialog {
 
     public BillForm(List<Offer> listAllMenues, List<Order> finalOrderList, User user, Restaurant restaurant,
                     DinningTable dinningTable) {
-        happyHourStart = 18;
-        happyHourEnd = 20;
-        lblPaymentTypeSavings.setText("0");
+//        happyHourStart = 18;
+//        happyHourEnd = 20;
+//        lblPaymentTypeSavings.setText("0");
 
         setContentPane(jPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -80,45 +81,34 @@ public class BillForm extends JDialog {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (cbPaymentType.getSelectedItem().toString().equalsIgnoreCase(Constants_Reduction.CASH.returnCash())){
                     reductionForPaymentType = totalPrice*(1-Constants_Reduction.CASH.reductionForCash());
-                    finalPrice = totalPrice * Constants_Reduction.CASH.reductionForCash();
 
                 }else if (cbPaymentType.getSelectedItem().toString().equalsIgnoreCase(Constants_Reduction.CREDIT_CARD.returnCreditCard())){
                     reductionForPaymentType = totalPrice*(1-Constants_Reduction.CREDIT_CARD.reductionForCreditCard());
-                    finalPrice = totalPrice * Constants_Reduction.CREDIT_CARD.reductionForCreditCard();
 
                 }else if (cbPaymentType.getSelectedItem().toString().equalsIgnoreCase(Constants_Reduction.CHECK_PAYMENT.returnCheckPayent())){
                     reductionForPaymentType = totalPrice*(1-Constants_Reduction.CHECK_PAYMENT.reductionForCheck());
-                    finalPrice = totalPrice * Constants_Reduction.CHECK_PAYMENT.reductionForCheck();
                 }
 
                 if (cbReduction.getSelectedItem().toString().equalsIgnoreCase(Constants_Reduction.REGULAR_CUSTOMER.returnRegularCustomer())){
                     specialReduction = totalPrice*(1-Constants_Reduction.REGULAR_CUSTOMER.reductionForRegularCustomer());
-                    finalPrice *= Constants_Reduction.REGULAR_CUSTOMER.reductionForRegularCustomer();
 
                 }else if (cbReduction.getSelectedItem().toString().equalsIgnoreCase(Constants_Reduction.SPECIAL_DISCOUNT.returnSpecialDiscount())){
                     specialReduction = totalPrice*(1-Constants_Reduction.SPECIAL_DISCOUNT.reductionForSpecialDiscount());
-                    finalPrice *= Constants_Reduction.SPECIAL_DISCOUNT.reductionForSpecialDiscount();
                 }
                 else if (cbReduction.getSelectedItem().toString().equalsIgnoreCase(Constants_Reduction.NO_REDUCTION.returnNoReduction())){
                     specialReduction = totalPrice*(1-Constants_Reduction.SPECIAL_DISCOUNT.reductionNoReduction());
-                    finalPrice *= Constants_Reduction.SPECIAL_DISCOUNT.reductionNoReduction();
+
+                }
+                if(isHappyHour()){
+                    happyHourReduction = totalPrice*.1;
+
                 }
 
                 lblReductionSavings.setText(convertToTwoDecimals(specialReduction));
                 lblPaymentTypeSavings.setText(convertToTwoDecimals(reductionForPaymentType));
-                if(isHappyHour()){
-                    finalPrice*=0.9;
-                    lblHappyHourSaving.setText(convertToTwoDecimals(totalPrice*.1));
-                }
-                lblFinaPrice.setText(convertToTwoDecimals(finalPrice));
-                if (lblHappyHourSaving.getText() != null && !lblHappyHourSaving.getText().isEmpty()){
-                    lblTotalSavings.setText(convertToTwoDecimals((Double.parseDouble(lblHappyHourSaving.getText())) +
-                            (Double.parseDouble(lblReductionSavings.getText())) + (Double.parseDouble(lblPaymentTypeSavings.getText()))));
-
-                }else {
-                    lblTotalSavings.setText(convertToTwoDecimals(Double.parseDouble(lblReductionSavings.getText()) +
-                            Double.parseDouble(lblPaymentTypeSavings.getText())));
-                }
+                lblHappyHourSaving.setText(convertToTwoDecimals(happyHourReduction));
+                lblTotalSavings.setText(convertToTwoDecimals(specialReduction + reductionForPaymentType + happyHourReduction));
+                lblFinaPrice.setText(convertToTwoDecimals(totalPrice - (specialReduction + reductionForPaymentType + happyHourReduction)));
                 PRINTRECEIPTButton.setVisible(true);
                 printReceiptButton.setVisible(true);
 
@@ -137,6 +127,8 @@ public class BillForm extends JDialog {
                     ControlerFront.getFrontControler().execute(transferClass);
                 } catch (IOException | ClassNotFoundException | InterruptedException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 dispose();
             }
@@ -149,8 +141,9 @@ public class BillForm extends JDialog {
                 for(Order ord: completeOrderList){
                     finalTax+= (Math.round(getPriceWithTax(ord) * ord.getQuantity()*100.0/100.0) - (ord.getQuantity()* ord.getOffer().getRestaurant_menu_price()));
                 }
-                ReceiptPrint receiptPrint = new ReceiptPrint(user.getuserFirstName(), restaurant.getName_restaurant(), cbPaymentType.getSelectedItem().toString(),
-                        Double.parseDouble(lblTotalSavings.getText()), Double.parseDouble(lblFinaPrice.getText()), completeOrderList, finalTax, Double.parseDouble(lblOffersTotalPrice.getText()));
+                ReceiptPrint receiptPrint = new ReceiptPrint(user, restaurant, cbPaymentType.getSelectedItem().toString(),
+                        Double.parseDouble(lblTotalSavings.getText()), Double.parseDouble(lblFinaPrice.getText()),
+                        completeOrderList, finalTax, Double.parseDouble(lblOffersTotalPrice.getText()));
                 receiptPrint.setVisible(true);
             }
         });

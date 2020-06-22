@@ -37,6 +37,9 @@ public class ControlerUser implements CommandBase{
             case GET_WAITER_NAME:
                 genericSystemOperation = new ReturnWaiterName(clientThread);
                 break;
+            case GET_LOGIN_INFO:
+                genericSystemOperation = new GetLoginInfo(clientThread);
+                break;
 
             default:
                 break;

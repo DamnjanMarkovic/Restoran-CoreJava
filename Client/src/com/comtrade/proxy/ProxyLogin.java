@@ -14,7 +14,7 @@ public class ProxyLogin implements Proxy {
 
 
     @Override
-    public void login(User user) throws IOException, ClassNotFoundException, InvocationTargetException, InterruptedException {
+    public void login(User user) throws Exception {
 
         Set<String> setRoleLabels = user.getSetUserRole().stream().map(rola -> rola.getLabel()).collect(Collectors.toSet());
 

@@ -31,21 +31,41 @@ public class TablesOfferViewForm extends JDialog {
         setColumnsOffers();
         setDataIntoTable(listOfferBasedOnBill, listAllMenues);
 
-
+//
+//        table1.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                super.mouseClicked(e);
+//                row = table1.getSelectedRow();
+//                String offerName = (table1.getModel().getValueAt(row, 0).toString());
+//                String line = "";
+//                for (Offer allOffers:listAllMenues                     ) {
+//                    if (offerName.equalsIgnoreCase(allOffers.getRestaurant_menu_name())){
+//                        for (Ingredient ingre:allOffers.getMenuIngredientList() ) {
+//                                line = "Ingredient: " + ingre.getIngredient_name() +
+//                                        ", purchase price: " + ingre.getPurchase_price() + ", " +
+//                                        "quantity: " + ingre.getQuantity() + " " + ingre.getQuantity_measure() + ";\n"+
+//                                        line;
+//                        }
+//                    }
+//                }
+//                JOptionPane.showMessageDialog(null,line);
+//            }
+//        });
         table1.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
                 row = table1.getSelectedRow();
                 String offerName = (table1.getModel().getValueAt(row, 0).toString());
                 String line = "";
                 for (Offer allOffers:listAllMenues                     ) {
                     if (offerName.equalsIgnoreCase(allOffers.getRestaurant_menu_name())){
                         for (Ingredient ingre:allOffers.getMenuIngredientList() ) {
-                                line = "Ingredient: " + ingre.getIngredient_name() +
-                                        ", purchase price: " + ingre.getPurchase_price() + ", " +
-                                        "quantity: " + ingre.getQuantity() + " " + ingre.getQuantity_measure() + ";\n"+
-                                        line;
+                            line = "Ingredient: " + ingre.getIngredient_name() +
+                                    ", purchase price: " + ingre.getPurchase_price() + ", " +
+                                    "quantity: " + ingre.getQuantity() + " " + ingre.getQuantity_measure() + ";\n"+
+                                    line;
                         }
                     }
                 }

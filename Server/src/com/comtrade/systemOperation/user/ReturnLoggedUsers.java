@@ -1,8 +1,7 @@
 package com.comtrade.systemOperation.user;
 
-import com.code.constants.ConstantsImages;
 import com.code.transferClass.TransferClass;
-import com.comtrade.controlerBL.ControlerThread;
+import com.comtrade.threads.ControlerThread;
 import com.comtrade.systemOperation.GenericSystemOperation;
 import com.comtrade.threads.ClientThread;
 
@@ -23,17 +22,11 @@ public class ReturnLoggedUsers extends GenericSystemOperation {
         List<String> listNames = new ArrayList<>();
         List<ClientThread>listClients = ControlerThread.getInstance().getListClients();
         for (ClientThread ct:listClients             ) {
-            if (ct.getName()!=clientThread.getName()){
+            if (!ct.getName().equals(clientThread.getName())){
                 listNames.add(ct.getName());
             }
         }
-        StringBuilder sb = new StringBuilder();
-        for (String str: listNames             ) {
-            sb.append(str).append(",");
-        }
-        String result = sb.substring(0, sb.length() - 1) + ".";
-
-        transferClass.setResponse(result);
+        transferClass.setResponse(listNames);
 
     }
 }

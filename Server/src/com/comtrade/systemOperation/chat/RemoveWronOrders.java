@@ -3,7 +3,7 @@ package com.comtrade.systemOperation.chat;
 import com.code.domain.User;
 import com.code.transferClass.TransferClass;
 import com.comtrade.broker.Broker;
-import com.comtrade.controlerBL.ControlerThread;
+import com.comtrade.threads.ControlerThread;
 import com.comtrade.systemOperation.GenericSystemOperation;
 import com.comtrade.threads.ClientThread;
 
@@ -18,21 +18,25 @@ public class RemoveWronOrders extends GenericSystemOperation {
         this.clientThread = clientThread;
     }
 
+//    REMOVE_WRONG_ORDER:
+
     @Override
     public void executeSpecificOperation(TransferClass transferClass) throws SQLException, InterruptedException, IOException {
        User user = (User) transferClass.getRequest();
-       String messageForManager = transferClass.getMessage();
         Broker broker = new Broker();
         String managerName = broker.getManagerNameBasedOnWaiterID(user.getid_user());
-        transferClass.setResponse("uspelo!");
+        transferClass.setResponse(managerName);
         List<ClientThread> loggedUsersList = ControlerThread.getInstance().getListClients();
 
         for (ClientThread ct:loggedUsersList             ) {
             if (ct.getName().equalsIgnoreCase(managerName)){
                 ct.send(transferClass);
             }
-        }
-        for (ClientThread ct:loggedUsersList             ) {
+            if (ct.getName().equalsIgnoreCase("Mr Burns")){
+                transferClass.setResponse("Mr Burns");
+                ct.send(transferClass);
+            }
+
             if (ct.getName().equalsIgnoreCase(user.getuserFirstName())){
                 ct.send(transferClass);
             }

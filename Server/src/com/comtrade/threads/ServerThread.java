@@ -1,15 +1,12 @@
 package com.comtrade.threads;
 
 import com.code.constants.Constants_IP_Port;
-import com.comtrade.controlerBL.ControlerThread;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ServerThread extends Thread {
 
@@ -19,9 +16,10 @@ public class ServerThread extends Thread {
     }
 
     private void startServer() {
+        ServerSocket serverSocket = null;
         ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         try {
-            ServerSocket serverSocket = new ServerSocket(Constants_IP_Port.PORT.getPort());
+            serverSocket = new ServerSocket(Constants_IP_Port.PORT.getPort());
             while (true) {
 
                     Socket socket = serverSocket.accept();
@@ -34,7 +32,9 @@ public class ServerThread extends Thread {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+
         }
+
 
     }
 

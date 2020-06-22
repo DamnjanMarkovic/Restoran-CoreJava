@@ -34,7 +34,7 @@ public class CanceledOrdersForm extends JDialog{
     private ImageIcon restaurantPhoto;
 
 
-    public CanceledOrdersForm(User user, Restaurant restaurant, ImageIcon userPhoto, ImageIcon restaurantPhoto) throws InterruptedException, IOException, ClassNotFoundException {
+    public CanceledOrdersForm(User user, Restaurant restaurant, ImageIcon userPhoto, ImageIcon restaurantPhoto) throws Exception {
         setContentPane(jPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -74,6 +74,8 @@ public class CanceledOrdersForm extends JDialog{
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 dtm1.setRowCount(0);
             }
@@ -88,7 +90,7 @@ public class CanceledOrdersForm extends JDialog{
                     deletedOrdersList = returnDeletedOrders(restaurant.getId_restaurant());
                     newOrdersForDeletion = returnNewOrdersForDeletion(restaurant.getId_restaurant());
                     setDataIntoTable(deletedOrdersList, newOrdersForDeletion, user);
-                } catch (InterruptedException | IOException | ClassNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -127,14 +129,14 @@ public class CanceledOrdersForm extends JDialog{
 
     }
 
-    private List<OrderDeletionDTO> returnNewOrdersForDeletion(int id_restaurant) throws InterruptedException, IOException, ClassNotFoundException {
+    private List<OrderDeletionDTO> returnNewOrdersForDeletion(int id_restaurant) throws Exception {
         List<OrderDeletionDTO> newOrderForDeletion = null;
         TransferClass transferClass = TransferClass.create(id_restaurant, ConstantsFC.ORDER, ConstantsBLC.RETURN_ORDERS_FOR_DELETION);
         newOrderForDeletion = (List<OrderDeletionDTO>) ControlerFront.getFrontControler().execute(transferClass).getResponse();
         return newOrderForDeletion;
     }
 
-    private List<OrderDeletionDTO> returnDeletedOrders(int id_restaurant) throws InterruptedException, IOException, ClassNotFoundException {
+    private List<OrderDeletionDTO> returnDeletedOrders(int id_restaurant) throws Exception {
         List<OrderDeletionDTO> deletedOrdersList = null;
         TransferClass transferClass = TransferClass.create(id_restaurant, ConstantsFC.ORDER, ConstantsBLC.RETURN_DELETED_ORDERS);
         deletedOrdersList = (List<OrderDeletionDTO>) ControlerFront.getFrontControler().execute(transferClass).getResponse();

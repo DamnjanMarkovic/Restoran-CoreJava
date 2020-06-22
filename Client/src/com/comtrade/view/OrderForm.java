@@ -59,7 +59,7 @@ public class OrderForm extends JDialog{
 //    private static final String CHAR_UPPER = "skdfjbsjclsjnd12312312";
 //    private static final String NUMBER = "0123456789";
 
-    public OrderForm(List<Offer> listAllMenues, User user, Restaurant restaurant, DinningTable dinningTable){
+    public OrderForm(List<Offer> listAllMenues, User user, Restaurant restaurant, DinningTable dinningTable) throws Exception {
 
         Random random = new Random();
         int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
@@ -197,14 +197,16 @@ public class OrderForm extends JDialog{
 //                        listIngredientChangeable = IngredientForm.returnListIngredientBasedOnRestaurant(restaurant.getId_restaurant());
                     } catch (IOException | ClassNotFoundException | InterruptedException e) {
                     e.printStackTrace();
-                }
+                } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 transferClass = TransferClass.create(listAvailableMenues, ConstantsFC.ORDER, ConstantsBLC.RETURN_TAKEN_ORDERS);
                 finalIDOrderListInString = returnIDListToChar(finalIDOrdersList);
                 transferClass.setMessage(finalIDOrderListInString);
                 try {
                     currentOrderList = (List<Order>) ControlerFront.getFrontControler().execute(transferClass).getResponse();
-                } catch (IOException | ClassNotFoundException | InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -216,7 +218,12 @@ public class OrderForm extends JDialog{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
-                CheckBillForm checkBillForm = new CheckBillForm(listAllMenues, user, restaurant, dinningTable);
+                CheckBillForm checkBillForm = null;
+                try {
+                    checkBillForm = new CheckBillForm(listAllMenues, user, restaurant, dinningTable);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 checkBillForm.setVisible(true);
                 dispose();
             }

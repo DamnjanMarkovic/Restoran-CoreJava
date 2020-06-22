@@ -4,7 +4,6 @@ import com.code.constants.*;
 import com.code.domain.ImageRestaurant;
 import com.code.domain.User;
 import com.code.transferClass.TransferClass;
-import com.comtrade.communicationClient.CommunicationClient;
 import com.comtrade.controlerFront.ControlerFront;
 import com.comtrade.proxy.Proxy;
 import com.comtrade.proxy.ProxyLogin;
@@ -12,8 +11,6 @@ import com.comtrade.proxy.ProxyLogin;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class LoginForm extends JFrame{
@@ -24,6 +21,8 @@ public class LoginForm extends JFrame{
     private JLabel lblImage;
     private JLabel lblUsername;
     private JLabel lblPass;
+
+
 
     public static void main(String[] args) {
 
@@ -53,6 +52,7 @@ public class LoginForm extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
 
+
         lblUsername.setIcon(ImageRestaurant.getPhotoInTable(ConstantsImages.LOGIN.imageLoginUser()));
         lblPass.setIcon(ImageRestaurant.getPhotoInTable(ConstantsImages.LOGIN.imageLoginKey()));
 
@@ -66,14 +66,21 @@ public class LoginForm extends JFrame{
                 User user = new User();
                 user.setUsername(userName);
                 user.setPassword(password);
+                TransferClass transferClass;
+
                 try {
+
                     if (ifuserNameExists(userName)) {
-                        TransferClass transferClass = TransferClass.create(user, ConstantsFC.USER, ConstantsBLC.GET_LOGIN);
+//                        System.out.println("ide u kreiranje usera");
+                        transferClass = TransferClass.create(user, ConstantsFC.USER, ConstantsBLC.GET_LOGIN);
                         Proxy proxy = new ProxyLogin();
+//                        System.out.println("salje transferklasu za usera");
                         user = (User) ControlerFront.getFrontControler().execute(transferClass).getResponse();
                         if (user!=null){
-                            CommunicationClient.getInstance().setUserID(user.getid_user());
+                            System.out.println("Korisnik "+ user.getuserFirstName() + " se ulogovao");
                             proxy.login(user);
+                            ControlerFront.getFrontControler().setUser(user);
+
                             dispose();
                         }else {
                             JOptionPane.showMessageDialog(null, "You're almost there! \nPlease enter correct password!");
@@ -82,7 +89,7 @@ public class LoginForm extends JFrame{
                         int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
                         JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
                     }
-                } catch (InterruptedException | IOException | InvocationTargetException | ClassNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -90,13 +97,14 @@ public class LoginForm extends JFrame{
 
     }
 
-    private boolean ifuserNameExists(String userName) throws InterruptedException, IOException, ClassNotFoundException {
+    private boolean ifuserNameExists(String userName) throws Exception {
         boolean exists = false;
-        try{
+
             TransferClass transferClass = TransferClass.create(userName, ConstantsFC.USER, ConstantsBLC.CONFIRM_USERNAME);
+            transferClass.setSpecialMessage("poruka");
             exists = (boolean) ControlerFront.getFrontControler().execute(transferClass).getResponse();
-        } catch (Exception e) {
-        }
+
+
         return exists;
     }
 

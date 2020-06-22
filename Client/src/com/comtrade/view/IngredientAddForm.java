@@ -47,7 +47,7 @@ public class IngredientAddForm extends JDialog{
 
 
 
-    public IngredientAddForm(User user, Restaurant restaurant){
+    public IngredientAddForm(User user, Restaurant restaurant) throws Exception {
         Random random = new Random();
         add(jPanel);
         setBounds(200,200,600,500);
@@ -199,7 +199,11 @@ public class IngredientAddForm extends JDialog{
                     }
                 }
                 deleteFields();
-                listIngredient = IngredientForm.returnListIngredientBasedOnRestaurant(restaurant.getId_restaurant());
+                try {
+                    listIngredient = IngredientForm.returnListIngredientBasedOnRestaurant(restaurant.getId_restaurant());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 setIngredientsIntoTable(listIngredient);
             }
         });
@@ -233,12 +237,14 @@ public class IngredientAddForm extends JDialog{
             listMissingIngredient = (List<Ingredient>) ControlerFront.getFrontControler().execute(transferClass).getResponse();
         } catch (IOException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return listMissingIngredient;
     }
 
-    private void addItemsIntoBase(int id_ingredient, double quantity, int idRestaurant) {
+    private void addItemsIntoBase(int id_ingredient, double quantity, int idRestaurant) throws Exception {
         Ingredient ingredient = new Ingredient();
         ingredient.setId_ingredient(id_ingredient);
         ingredient.setQuantity(quantity);

@@ -42,7 +42,7 @@ public class AvailableMenuForm extends JDialog {
 
 
 
-    public AvailableMenuForm(User user, Restaurant restaurant) {
+    public AvailableMenuForm(User user, Restaurant restaurant) throws Exception {
         add(jPanel);
         setBounds(400, 150, 800, 800);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -68,7 +68,11 @@ public class AvailableMenuForm extends JDialog {
         cbType.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                listAvailableMenues = returnListAvailableMenues(restaurant.getId_restaurant(), listAllMenues);
+                try {
+                    listAvailableMenues = returnListAvailableMenues(restaurant.getId_restaurant(), listAllMenues);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 dtm3.setRowCount(0);
 
                 for (Offer rstm: listAvailableMenues) {
@@ -137,6 +141,8 @@ public class AvailableMenuForm extends JDialog {
             imageRestaurants = (List<ImageRestaurant>) ControlerFront.getFrontControler().execute(transferClass).getResponse();
         } catch (IOException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return imageRestaurants;
     }
@@ -152,7 +158,7 @@ public class AvailableMenuForm extends JDialog {
     }
 
 
-    public static List<Offer> returnAllListRestaurantMenues() {
+    public static List<Offer> returnAllListRestaurantMenues() throws Exception {
         List<Offer> listOffer2 = new ArrayList<>();
         Offer offer = new Offer();
         TransferClass transferClass = TransferClass.create(offer, ConstantsFC.RESTAURANT_MENU, ConstantsBLC.GET_ALL_MENU_OFFERS);
@@ -166,7 +172,7 @@ public class AvailableMenuForm extends JDialog {
 
 
 
-    public static List<Offer> returnListAvailableMenues(int idRestaurant, List<Offer> listAllMenues) {
+    public static List<Offer> returnListAvailableMenues(int idRestaurant, List<Offer> listAllMenues) throws Exception {
         List<Offer> listAvailableMenues = new ArrayList<>();
         TransferClass transferClass = TransferClass.create(listAllMenues, ConstantsFC.RESTAURANT_MENU, ConstantsBLC.GET_AVAILABLE_MENU_OFFERS);
         transferClass.setMessage(String.valueOf(idRestaurant));

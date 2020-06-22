@@ -38,7 +38,7 @@ public class WaiterEntryForm extends JFrame{
     private ImageIcon userPhoto = null;
     private List<DinningTable>listAvailableTables = new ArrayList<>();
 
-    public WaiterEntryForm(User user) throws IOException, ClassNotFoundException, InterruptedException {
+    public WaiterEntryForm(User user) throws Exception {
 
         setContentPane(jPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -68,7 +68,11 @@ public class WaiterEntryForm extends JFrame{
         btnRefresh.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            setTablePhotos();
+                try {
+                    setTablePhotos();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
 
             }
         });
@@ -109,10 +113,23 @@ public class WaiterEntryForm extends JFrame{
                     table_number = 9;
                     break;
             }
-            dinningTable  = returnDinningTable(table_number, restaurant.getId_restaurant());
-            OrderForm orderForm = new OrderForm(listAllMenues, user, restaurant, dinningTable);
+            try {
+                dinningTable  = returnDinningTable(table_number, restaurant.getId_restaurant());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            OrderForm orderForm = null;
+            try {
+                orderForm = new OrderForm(listAllMenues, user, restaurant, dinningTable);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             orderForm.setVisible(true);
-            setTablePhotos();
+            try {
+                setTablePhotos();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -132,7 +149,7 @@ public class WaiterEntryForm extends JFrame{
         return buttonList;
     }
 
-    private void setTablePhotos() {
+    private void setTablePhotos() throws Exception {
 
         TransferClass transferClass = TransferClass.create(null, ConstantsFC.RESTAURANT, ConstantsBLC.RETURN_AVAILABLE_TABLES);
         try {
@@ -163,7 +180,7 @@ public class WaiterEntryForm extends JFrame{
     }
 
 
-    public static DinningTable returnDinningTable(int table_number, int id_restaurant) {
+    public static DinningTable returnDinningTable(int table_number, int id_restaurant) throws Exception {
         DinningTable dinningTable = new DinningTable(table_number, id_restaurant);
         TransferClass transferClass = TransferClass.create(dinningTable, ConstantsFC.RESTAURANT, ConstantsBLC.RETURN_DINNING_TABLE);
         try {

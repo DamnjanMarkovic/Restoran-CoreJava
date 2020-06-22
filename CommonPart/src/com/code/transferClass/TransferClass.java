@@ -15,7 +15,7 @@ public class  TransferClass implements Serializable {
     private String specialMessage;
 
 
-    public synchronized static TransferClass create(Object request, ConstantsFC constantsFC, ConstantsBLC constantsBLC) {
+    public static TransferClass create(Object request, ConstantsFC constantsFC, ConstantsBLC constantsBLC) {
         TransferClass transferClass = new TransferClass();
         transferClass.setRequest(request);
         transferClass.setConstantsBLC(constantsBLC);

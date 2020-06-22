@@ -28,8 +28,8 @@ public class SQLConnection {
     public void startTransaction(){
         try {
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "Sql2020D!");
-//            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "Sql2020D!");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=CAT&useLegacyDatetimeCode=false", "root", "Sql2020D!");
+//            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=CAT", "root", "Sql2020D!");
             //url: jdbc:mysql://localhost:3306/jhipster?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
 
 

@@ -35,8 +35,8 @@ public class RestaurantsForm extends JDialog{
     private ImageIcon userPhoto = null;
 
 
-    public RestaurantsForm(User user) throws InterruptedException, IOException, ClassNotFoundException {
-
+    public RestaurantsForm(User user) throws Exception {
+//        TransferClass transferClass = new TransferClass();
         add(jPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setBounds(400, 100, 800, 800);

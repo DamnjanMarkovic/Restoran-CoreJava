@@ -1,7 +1,7 @@
 package com.comtrade.systemOperation.chat;
 
 import com.code.transferClass.TransferClass;
-import com.comtrade.controlerBL.ControlerThread;
+import com.comtrade.threads.ControlerThread;
 import com.comtrade.systemOperation.GenericSystemOperation;
 import com.comtrade.threads.ClientThread;
 
@@ -27,7 +27,7 @@ public class PostMessageService extends GenericSystemOperation {
         if (transferClass.getMessage().equalsIgnoreCase("QUIT")){
 
         }else {
-            ControlerThread.getInstance().informAllClients(transferClass, clientThread);
+            ControlerThread.getInstance().informAllClients(transferClass);
         }
 
 

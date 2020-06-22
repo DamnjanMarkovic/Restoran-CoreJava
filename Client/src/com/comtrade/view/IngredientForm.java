@@ -44,7 +44,7 @@ public class IngredientForm extends JDialog{
 
 
 
-    public IngredientForm(User user, Restaurant restaurant){
+    public IngredientForm(User user, Restaurant restaurant) throws Exception {
         Random random = new Random();
         add(jPanel);
         setBounds(200,200,750,500);
@@ -87,6 +87,8 @@ public class IngredientForm extends JDialog{
                     deleteFields();
 
                 } catch (IOException | ClassNotFoundException | InterruptedException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -147,7 +149,12 @@ public class IngredientForm extends JDialog{
         btnAddNewItems.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                IngredientAddForm ingredientAddForm = new IngredientAddForm(user, restaurant);
+                IngredientAddForm ingredientAddForm = null;
+                try {
+                    ingredientAddForm = new IngredientAddForm(user, restaurant);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 ingredientAddForm.setVisible(true);
             }
         });
@@ -185,7 +192,7 @@ public class IngredientForm extends JDialog{
 
     }
 
-    private void addItemsIntoBase(int id_ingredient, double quantity, Restaurant restaurant) {
+    private void addItemsIntoBase(int id_ingredient, double quantity, Restaurant restaurant) throws Exception {
         Ingredient ingredient = new Ingredient(id_ingredient, quantity);
         TransferClass transferClass = TransferClass.create(ingredient, ConstantsFC.INGREDIENTS, ConstantsBLC.PUT_INGREDIENTS);
         transferClass.setMessage(String.valueOf(restaurant.getId_restaurant()));
@@ -209,7 +216,7 @@ public class IngredientForm extends JDialog{
         }
     }
 
-    public static List<Ingredient> returnListIngredientBasedOnRestaurant(int id_restaurant) {
+    public static List<Ingredient> returnListIngredientBasedOnRestaurant(int id_restaurant) throws Exception {
         List<Ingredient> listIngredient = null ;
         TransferClass transferClass = TransferClass.create(id_restaurant, ConstantsFC.INGREDIENTS, ConstantsBLC.GET_INGREDIENTS_ON_RESTAURANT);
         try {
@@ -226,6 +233,8 @@ public class IngredientForm extends JDialog{
         try {
         listIngredient = (List<Ingredient>) ControlerFront.getFrontControler().execute(transferClass).getResponse();
         } catch (IOException | ClassNotFoundException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return listIngredient;

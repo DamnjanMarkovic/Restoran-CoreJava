@@ -3,12 +3,9 @@ package com.comtrade.view;
 import com.code.constants.ConstantsBLC;
 import com.code.constants.ConstantsFC;
 import com.code.constants.ConstantsImages;
-import com.code.constants.ConstantsInfoWrongInput;
 import com.code.domain.*;
 import com.code.transferClass.TransferClass;
 import com.comtrade.controlerFront.ControlerFront;
-import com.comtrade.threadClient.ThreadRead;
-import com.itextpdf.kernel.pdf.canvas.parser.listener.ILocationExtractionStrategy;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -55,7 +52,7 @@ public class OffersForm extends JDialog{
     private Restaurant restaurant;
     private List<Offer>listAllMenues = null;
 
-    public OffersForm(User user, Restaurant restaurant){
+    public OffersForm(User user, Restaurant restaurant) throws Exception {
         Random random = new Random();
         add(jPanel);
         setBounds(200,200,1000,500);
@@ -234,9 +231,15 @@ public class OffersForm extends JDialog{
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 imagesList = AvailableMenuForm.returnImages();
-                listAllMenues = AvailableMenuForm.returnAllListRestaurantMenues();
+                try {
+                    listAllMenues = AvailableMenuForm.returnAllListRestaurantMenues();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });

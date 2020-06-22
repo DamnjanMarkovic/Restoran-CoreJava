@@ -41,7 +41,7 @@ public class NewUserForm extends JDialog{
 
 
 
-    public NewUserForm(User user) throws InterruptedException, IOException, ClassNotFoundException {
+    public NewUserForm(User user) throws Exception {
 
         add(jPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -84,6 +84,8 @@ public class NewUserForm extends JDialog{
                             ControlerFront.getFrontControler().execute(transferClass);
                             dispose();
                         } catch (IOException | ClassNotFoundException | InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -137,7 +139,7 @@ public class NewUserForm extends JDialog{
         }
     }
 
-    private void setCBRole(User user) throws InterruptedException, IOException, ClassNotFoundException {
+    private void setCBRole(User user) throws Exception {
         TransferClass transferClass = TransferClass.create(user.getid_user(), ConstantsFC.USER, ConstantsBLC.RETURN_ROLES);
 
         listRoles = (List<UserRole>) ControlerFront.getFrontControler().execute(transferClass).getResponse();

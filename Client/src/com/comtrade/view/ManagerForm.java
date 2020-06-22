@@ -32,7 +32,7 @@ public class ManagerForm extends JFrame{
 
 
 
-    public ManagerForm(User user) throws IOException, ClassNotFoundException, InterruptedException {
+    public ManagerForm(User user) throws Exception {
 
         setContentPane(jPanel);
 
@@ -52,14 +52,24 @@ public class ManagerForm extends JFrame{
         btnIngredients.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                IngredientForm ingredientForm = new IngredientForm(user, restaurant);
+                IngredientForm ingredientForm = null;
+                try {
+                    ingredientForm = new IngredientForm(user, restaurant);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 ingredientForm.setVisible(true);
             }
         });
         btnAvailableOffers.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AvailableMenuForm menuForm = new AvailableMenuForm(user, restaurant);
+                AvailableMenuForm menuForm = null;
+                try {
+                    menuForm = new AvailableMenuForm(user, restaurant);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 menuForm.setVisible(true);
             }
         });
@@ -69,7 +79,12 @@ public class ManagerForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
-                OffersForm offersForm = new OffersForm(user, restaurant);
+                OffersForm offersForm = null;
+                try {
+                    offersForm = new OffersForm(user, restaurant);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 offersForm.setVisible(true);
             }
         });
@@ -82,7 +97,7 @@ public class ManagerForm extends JFrame{
                 try {
                     tablesBillViewForm = new TablesBillViewForm(user);
                     tablesBillViewForm.setVisible(true);
-                } catch (InterruptedException | IOException | ClassNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -98,6 +113,8 @@ public class ManagerForm extends JFrame{
                 try {
                     canceledOrdersForm = new CanceledOrdersForm(user, restaurant, userPhoto, restaurantPhoto);
                 } catch (InterruptedException | IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 canceledOrdersForm.setVisible(true);
@@ -127,7 +144,7 @@ public class ManagerForm extends JFrame{
 
 
 
-    public static List<Restaurant> getRestaurantsList(User user) throws IOException, ClassNotFoundException, InterruptedException {
+    public static List<Restaurant> getRestaurantsList(User user) throws Exception {
         List<Restaurant>restaurantsList = new ArrayList<>();
         restaurantsList = (List<Restaurant>) ControlerFront.getFrontControler().execute
                 (TransferClass.create(user, ConstantsFC.RESTAURANT, ConstantsBLC.GET_RESTAURANTS)).getResponse();

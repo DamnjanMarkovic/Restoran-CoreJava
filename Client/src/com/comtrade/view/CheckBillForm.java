@@ -28,6 +28,7 @@ public class CheckBillForm extends JDialog{
     private JComboBox cbEmployees;
     private JButton REMOVEButton;
     private JLabel lblRestaurant;
+    private JLabel lblMessageRequestText;
     private JLabel lbluser;
     private JButton CONFIRMButton;
     private JButton btnSendToOtherBill;
@@ -49,7 +50,7 @@ public class CheckBillForm extends JDialog{
 
 
 
-    public CheckBillForm(List<Offer> listAllMenues, User user, Restaurant restaurant, DinningTable dinningTable){
+    public CheckBillForm(List<Offer> listAllMenues, User user, Restaurant restaurant, DinningTable dinningTable) throws Exception {
         setContentPane(jPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         REMOVEButton.setVisible(false);
@@ -63,6 +64,8 @@ public class CheckBillForm extends JDialog{
 
         lblUserPhoto.setIcon(ImageRestaurant.getPhoto(user.getImageLocation()));
         lblRestaurant.setIcon(ImageRestaurant.getPhoto(restaurant.getImageLocation()));
+        lblMessageRequestText.setVisible(false);
+        tfMessage.setVisible(false);
         //setcbTables();
         //btnSendToOtherBill.setVisible(false);
         //lblSelectTable.setVisible(false);
@@ -85,15 +88,7 @@ public class CheckBillForm extends JDialog{
             }
         });
 
-        table1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                row = table1.getSelectedRow();
-                idOrderForDeletion = Integer.parseInt(table1.getModel().getValueAt(row, 0).toString());
-                REMOVEButton.setVisible(true);
-            }
-        });
+
         REMOVEButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -104,35 +99,41 @@ public class CheckBillForm extends JDialog{
                 transferClass = TransferClass.create(orderDeletionDTO, ConstantsFC.ORDER, ConstantsBLC.INSERT_ORDERS_FOR_DELETION);
                 try {
                     ControlerFront.getFrontControler().execute(transferClass);
-                } catch (IOException | ClassNotFoundException | InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        });
 
+                String sendingMessage = "Druze ajde skini ovu porudzbinu, molim te.";
+                if (tfMessage!=null) {
+                    sendingMessage = tfMessage.getText();
+                }
+                transferClass = TransferClass.create(user, ConstantsFC.CHAT, ConstantsBLC.REMOVE_WRONG_ORDER);
+                transferClass.setMessage(sendingMessage);
+                transferClass.setSpecialMessage(String.valueOf(idOrderForDeletion));
+                try {
+                    ControlerFront.getFrontControler().execute(transferClass);
 
-/*
-        btnSendToOTherTable.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                btnSendToOtherBill.setVisible(true);
-                lblSelectTable.setVisible(true);
-                tfMessage.setVisible(true);
-                cbTables.setVisible(true);
-                cbEmployees.setVisible(true);
-            }
-        });
-        btnSendToOtherBill.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                String messageline = tfMessage.getText();
-                firstMessage = "OFFER LIST FOR TRANSFER TO ANOTHER BILL;";
-                sendMessageAndOrderList(messageline, firstMessage, user);
-                cbEmployees.setVisible(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                lblMessageRequestText.setVisible(false);
                 tfMessage.setVisible(false);
-                btnSendForRemoval.setVisible(false);
+                REMOVEButton.setVisible(false);
+
             }
-        });*/
+        });
+
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                row = table1.getSelectedRow();
+                idOrderForDeletion = Integer.parseInt(table1.getModel().getValueAt(row, 0).toString());
+                REMOVEButton.setVisible(true);
+                lblMessageRequestText.setVisible(true);
+                tfMessage.setVisible(true);
+            }
+        });
     }
 
 
@@ -152,7 +153,7 @@ public class CheckBillForm extends JDialog{
         }return finalList;
     }
 
-    private List<Order> returnFullOrderList(int id_dinningTable) {
+    private List<Order> returnFullOrderList(int id_dinningTable) throws Exception {
         transferClass = TransferClass.create(id_dinningTable, ConstantsFC.ORDER, ConstantsBLC.GET_ORDERS_BASED_ON_TABLE);
             List<Order>listOrderFull = new ArrayList<>();
         try {

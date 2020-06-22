@@ -3,10 +3,7 @@ package com.comtrade.view;
 import com.code.constants.ConstantsBLC;
 import com.code.constants.ConstantsFC;
 import com.code.constants.ConstantsImages;
-import com.code.domain.ImageRestaurant;
-import com.code.domain.Restaurant;
-import com.code.domain.User;
-import com.code.domain.UserDTO;
+import com.code.domain.*;
 import com.code.transferClass.TransferClass;
 import com.comtrade.controlerFront.ControlerFront;
 
@@ -18,7 +15,10 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsersForm extends JDialog{
@@ -29,13 +29,14 @@ public class UsersForm extends JDialog{
     private JScrollPane jScrolPane;
     private JLabel lblAllUsers;
     private JButton btnNewUser;
+    private int row;
 
     private List<Restaurant>restaurantsList = null;
     private ImageIcon userPhoto = null;
     private List <UserDTO> userDTOList = null;
 
 
-    public UsersForm(User user) throws InterruptedException, IOException, ClassNotFoundException {
+    public UsersForm(User user) throws Exception {
 
         add(jPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -69,14 +70,42 @@ public class UsersForm extends JDialog{
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 newUserForm.setVisible(true);
                     dispose();
             }
         });
+
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                List<DTOUserLogging> listUserLogging = new ArrayList<>();
+
+                row = table1.getSelectedRow();
+                String firstName = String.valueOf(table1.getModel().getValueAt(row, 1).toString());
+
+                System.out.println(firstName);
+                TransferClass transferClass = TransferClass.create(null, ConstantsFC.USER, ConstantsBLC.GET_LOGIN_INFO);
+                transferClass.setMessage(firstName);
+                try {
+                    listUserLogging = (List<DTOUserLogging>) ControlerFront.getFrontControler().execute(transferClass).getResponse();
+                } catch (Exception ef) {
+                    ef.printStackTrace();
+                }
+                UserLogging userLogging = new UserLogging(user, listUserLogging);
+                userLogging.setVisible(true);
+            }
+        });
     }
 
-    private void setUsersInTable(User user) throws InterruptedException, IOException, ClassNotFoundException {
+
+
+
+
+    private void setUsersInTable(User user) throws Exception {
 
         TransferClass transferClass = TransferClass.create(user.getid_user(), ConstantsFC.USER, ConstantsBLC.RETURN_USERS);
 

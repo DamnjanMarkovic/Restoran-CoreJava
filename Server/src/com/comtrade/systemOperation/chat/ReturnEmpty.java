@@ -3,7 +3,7 @@ package com.comtrade.systemOperation.chat;
 import com.code.constants.ConstantsBLC;
 import com.code.constants.ConstantsFC;
 import com.code.transferClass.TransferClass;
-import com.comtrade.controlerBL.ControlerThread;
+import com.comtrade.threads.ControlerThread;
 import com.comtrade.systemOperation.GenericSystemOperation;
 import com.comtrade.threads.ClientThread;
 
@@ -27,8 +27,7 @@ public class ReturnEmpty extends GenericSystemOperation {
         setClientThread(clientThread);
         transferClass = TransferClass.create("CHAT", ConstantsFC.CHAT, ConstantsBLC.CHAT_LEAVING_MESSAGE);
         transferClass.setMessage("chat se salje");
-        System.out.println("u chat sistemskoj operaciji ");
-        ControlerThread.getInstance().informAllClients(transferClass, clientThread);
+        ControlerThread.getInstance().informAllClients(transferClass);
 
     }
 }

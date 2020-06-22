@@ -50,7 +50,7 @@ public class TablesBillViewForm extends JDialog{
 
 
 
-    public TablesBillViewForm(User user) throws InterruptedException, IOException, ClassNotFoundException {
+    public TablesBillViewForm(User user) throws Exception {
 
         add(jPanel);
         setBounds(200,200,900,500);
@@ -141,6 +141,8 @@ public class TablesBillViewForm extends JDialog{
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 dtm.setRowCount(0);
                 if (listBills!=null && !listBills.isEmpty()){
@@ -155,10 +157,12 @@ public class TablesBillViewForm extends JDialog{
         });
 
 
+
+
         table1.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
                 List<Offer>listOfferBasedOnBill = new ArrayList<>();
                 row = table1.getSelectedRow();
                 int idBill = Integer.parseInt(table1.getModel().getValueAt(row, 0).toString());
@@ -167,7 +171,7 @@ public class TablesBillViewForm extends JDialog{
                 transferClass.setMessage(String.valueOf(idBill));
                 try {
                     listOfferBasedOnBill = (List<Offer>) ControlerFront.getFrontControler().execute(transferClass).getResponse();
-                } catch (IOException | ClassNotFoundException | InterruptedException ef) {
+                } catch (Exception ef) {
                     ef.printStackTrace();
                 }
                 TablesOfferViewForm tablesOfferViewForm = new TablesOfferViewForm(listOfferBasedOnBill, listAllMenues, user, restaurant);
@@ -177,7 +181,6 @@ public class TablesBillViewForm extends JDialog{
     }
 
     private Restaurant selectRestaurant(List<Restaurant> restaurantsList) {
-
 
         for (Restaurant rest:restaurantsList             ) {
             if (cbEstablishment.getSelectedItem().toString().equalsIgnoreCase(rest.getName_restaurant())){
