@@ -33,6 +33,9 @@ public enum ConstantsImages {
     public String imageManagerLoginbtnCancel(){
         return "Server/src/com/comtrade/images/Cancelled.png";
     }
+    public String imageManagerLoginTransfer(){
+        return "Server/src/com/comtrade/images/TransferLogo.png";
+    }
     public String imageManagerIngredient(){
         return "Server/src/com/comtrade/images/ingredients_3.png";
     }

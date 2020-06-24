@@ -87,7 +87,7 @@ public class UsersForm extends JDialog{
                 row = table1.getSelectedRow();
                 String firstName = String.valueOf(table1.getModel().getValueAt(row, 1).toString());
 
-                System.out.println(firstName);
+     
                 TransferClass transferClass = TransferClass.create(null, ConstantsFC.USER, ConstantsBLC.GET_LOGIN_INFO);
                 transferClass.setMessage(firstName);
                 try {

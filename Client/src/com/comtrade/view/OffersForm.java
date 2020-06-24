@@ -194,7 +194,7 @@ public class OffersForm extends JDialog{
         cbChooseOffer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                dtm2.setRowCount(0);
+//                dtm2.setRowCount(0);
 
                 for (Offer rstm : listAllMenues) {
                     if (cbChooseOffer!=null){

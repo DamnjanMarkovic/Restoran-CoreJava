@@ -41,7 +41,7 @@ public class ManagerForm extends JFrame{
         setContentPane(jPanel);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBounds(200, 100, 500, 600);
+        setBounds(200, 100, 900, 900);
         setDefaultLookAndFeelDecorated(true);
         restaurantsList = getRestaurantsList(user);
         this.user = user;
@@ -124,21 +124,21 @@ public class ManagerForm extends JFrame{
                 canceledOrdersForm.setVisible(true);
             }
         });
-        button1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                CanceledOrdersForm canceledOrdersForm = null;
-                try {
-                    canceledOrdersForm = new CanceledOrdersForm(user, restaurant, userPhoto, restaurantPhoto);
-                } catch (InterruptedException | IOException | ClassNotFoundException ef) {
-                    ef.printStackTrace();
-                } catch (Exception ef) {
-                    ef.printStackTrace();
-                }
-                canceledOrdersForm.setVisible(true);
-            }
-        });
+//        button1.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                super.mousePressed(e);
+//                CanceledOrdersForm canceledOrdersForm = null;
+//                try {
+//                    canceledOrdersForm = new CanceledOrdersForm(user, restaurant, userPhoto, restaurantPhoto);
+//                } catch (InterruptedException | IOException | ClassNotFoundException ef) {
+//                    ef.printStackTrace();
+//                } catch (Exception ef) {
+//                    ef.printStackTrace();
+//                }
+//                canceledOrdersForm.setVisible(true);
+//            }
+//        });
 
         transferOrder.addMouseListener(new MouseAdapter() {
             @Override
@@ -173,6 +173,9 @@ public class ManagerForm extends JFrame{
         ImageIcon returnedOrders = new ImageIcon(new ImageIcon((ConstantsImages.LOGIN_MANAGER.imageManagerLoginbtnCancel())).getImage().
                 getScaledInstance(200, 150, java.awt.Image.SCALE_SMOOTH));
         btnCancel.setIcon(returnedOrders);
+        ImageIcon transfer = new ImageIcon(new ImageIcon((ConstantsImages.LOGIN_MANAGER.imageManagerLoginTransfer())).getImage().
+                getScaledInstance(200, 150, java.awt.Image.SCALE_SMOOTH));
+        transferOrder.setIcon(transfer);
     }
 
 
