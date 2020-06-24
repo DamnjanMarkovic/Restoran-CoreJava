@@ -120,7 +120,7 @@ public class WaiterEntryForm extends JFrame{
             }
             OrderForm orderForm = null;
             try {
-                orderForm = new OrderForm(listAllMenues, user, restaurant, dinningTable);
+                orderForm = new OrderForm(user, restaurant, dinningTable);
             } catch (Exception e) {
                 e.printStackTrace();
             }

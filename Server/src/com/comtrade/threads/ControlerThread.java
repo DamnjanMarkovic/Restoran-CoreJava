@@ -72,8 +72,6 @@ public class ControlerThread {
     }
 
     public void informAllClients(TransferClass transferClass) throws IOException {
-
-
         for (ClientThread client: listClients) {
             client.send(transferClass);
         }
@@ -81,7 +79,6 @@ public class ControlerThread {
 
 
     public  void informOnlySendingClient(TransferClass transferClass, ClientThread clientThread) throws IOException {
-
         for (ClientThread client: listClients) {
             if (client.equals(clientThread)){
                 client.send(transferClass);

@@ -33,6 +33,9 @@ public class ControlerOrders implements CommandBase {
             case RETURN_DELETED_ORDERS:
                 genericSystemOperation = new ReturnDeletedOrdersService();
                 break;
+            case TRANSFER_ORDERS:
+                genericSystemOperation = new TransferOrders();
+                break;
 
             default:
                 break;

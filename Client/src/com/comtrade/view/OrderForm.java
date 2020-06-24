@@ -59,7 +59,7 @@ public class OrderForm extends JDialog{
 //    private static final String CHAR_UPPER = "skdfjbsjclsjnd12312312";
 //    private static final String NUMBER = "0123456789";
 
-    public OrderForm(List<Offer> listAllMenues, User user, Restaurant restaurant, DinningTable dinningTable) throws Exception {
+    public OrderForm(User user, Restaurant restaurant, DinningTable dinningTable) throws Exception {
 
         Random random = new Random();
         int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
@@ -68,6 +68,7 @@ public class OrderForm extends JDialog{
         setBounds(200,200,1400,600);
         table1 = new JTable(dtm);
         jScrolPane.setViewportView(table1);
+        listAllMenues = AvailableMenuForm.returnAllListRestaurantMenues();
         setColumns();
         lblUserPhoto.setIcon(ImageRestaurant.getPhoto(user.getImageLocation()));
         imageRestaurants = AvailableMenuForm.returnImages();
@@ -88,64 +89,68 @@ public class OrderForm extends JDialog{
                 List<Order>listOrder = new ArrayList<>();
 
                 if (!tfFood.getText().equals("")){
-                    String offerName = cbFood.getModel().getSelectedItem().toString();
-                    try{
-                        int quantity = Integer.parseInt(tfFood.getText());
-                        if (quantity > 0) {
-                            for (Offer ofr:listAllMenues ) {
-                                if (ofr.getRestaurant_menu_name().equalsIgnoreCase(offerName)){
-                                    Order order = new Order(ofr, quantity);
-                                    listOrder.add(order);
+                    if(cbFood.getModel().getSelectedItem()!=null) {
+                        String offerName = cbFood.getModel().getSelectedItem().toString();
+                        try {
+                            int quantity = Integer.parseInt(tfFood.getText());
+                            if (quantity > 0) {
+                                for (Offer ofr : listAllMenues) {
+                                    if (ofr.getRestaurant_menu_name().equalsIgnoreCase(offerName)) {
+                                        Order order = new Order(ofr, quantity);
+                                        listOrder.add(order);
+                                    }
                                 }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Quantity has to be more then 0");
+
                             }
+                        } catch (Exception e) {
+                            int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
+                            JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
                         }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Quantity has to be more then 0");
-
-                        }
-                    } catch (Exception e) {
-                        int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
-                        JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
                     }
-
 
                 }
                 if (!tfAlcofholicDrink.getText().equals("")){
-                    String offerName = cbAlcoholicDrink.getModel().getSelectedItem().toString();
-                    try{
-                    int quantity = Integer.parseInt(tfAlcofholicDrink.getText());
-                    if (quantity > 0) {
-                        for (Offer ofr:listAllMenues ) {
-                            if (ofr.getRestaurant_menu_name().equalsIgnoreCase(offerName)){
-                                Order order = new Order(ofr, quantity);
-                                listOrder.add(order);
+                    if(cbAlcoholicDrink.getModel().getSelectedItem()!=null) {
+                        String offerName = cbAlcoholicDrink.getModel().getSelectedItem().toString();
+                        try {
+                            int quantity = Integer.parseInt(tfAlcofholicDrink.getText());
+                            if (quantity > 0) {
+                                for (Offer ofr : listAllMenues) {
+                                    if (ofr.getRestaurant_menu_name().equalsIgnoreCase(offerName)) {
+                                        Order order = new Order(ofr, quantity);
+                                        listOrder.add(order);
+                                    }
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Quantity has to be more then 0");
                             }
+                        } catch (Exception e) {
+                            int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
+                            JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Quantity has to be more then 0");
-                    }
-                    } catch (Exception e) {
-                        int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
-                        JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
                     }
                 }
                 if (!tfNonAlcoholic.getText().equals("")){
-                    String offerName = cbNonAlcoholicDrink.getModel().getSelectedItem().toString();
-                    try{
-                    int quantity = Integer.parseInt(tfNonAlcoholic.getText());
-                    if (quantity > 0) {
-                        for (Offer ofr:listAllMenues ) {
-                            if (ofr.getRestaurant_menu_name().equalsIgnoreCase(offerName)){
-                                Order order = new Order(ofr, quantity);
-                                listOrder.add(order);
+                    if(cbNonAlcoholicDrink.getModel().getSelectedItem()!=null) {
+                        String offerName = cbNonAlcoholicDrink.getModel().getSelectedItem().toString();
+                        try {
+                            int quantity = Integer.parseInt(tfNonAlcoholic.getText());
+                            if (quantity > 0) {
+                                for (Offer ofr : listAllMenues) {
+                                    if (ofr.getRestaurant_menu_name().equalsIgnoreCase(offerName)) {
+                                        Order order = new Order(ofr, quantity);
+                                        listOrder.add(order);
+                                    }
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Quantity has to be more then 0");
                             }
+                        } catch (Exception e) {
+                            int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
+                            JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Quantity has to be more then 0");
-                    }
-                    } catch (Exception e) {
-                        int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());
-                        JOptionPane.showMessageDialog(null, ConstantsImages.WRONG_INPUT.infoWrongInput().get(res));
                     }
                 }
                 if (checkifAvailable(restaurant, listOrder)){

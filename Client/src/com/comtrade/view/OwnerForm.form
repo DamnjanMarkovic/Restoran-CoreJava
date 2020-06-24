@@ -56,26 +56,9 @@
           <text value="MANAGERS/WAITERS"/>
         </properties>
       </component>
-      <component id="52127" class="javax.swing.JButton" binding="btnLoggedUsers">
-        <constraints>
-          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Logged users:"/>
-        </properties>
-      </component>
-      <component id="1474a" class="javax.swing.JLabel" binding="lblLoggedUsers">
-        <constraints>
-          <grid row="7" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font name="Ayuthaya" size="14" style="0"/>
-          <text value=""/>
-        </properties>
-      </component>
       <component id="15927" class="javax.swing.JButton" binding="SENDMESSAGEButton" default-binding="true">
         <constraints>
-          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="0" row-span="2" col-span="6" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="SEND MESSAGE"/>

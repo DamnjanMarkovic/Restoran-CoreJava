@@ -180,6 +180,12 @@ public class OffersForm extends JDialog{
                         tfOfferPrice.setText("");
                     }
                 }
+                try {
+                    listAllMenues = AvailableMenuForm.returnAllListRestaurantMenues();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                setcbChooseOffer();
 
 
             }
@@ -225,12 +231,6 @@ public class OffersForm extends JDialog{
                 transferClass.setMessage(String.valueOf(idOffer));
                 try {
                     ControlerFront.getFrontControler().execute(transferClass);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -239,6 +239,13 @@ public class OffersForm extends JDialog{
                     listAllMenues = AvailableMenuForm.returnAllListRestaurantMenues();
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+
+                if (chosenPhotoLocation!=null){
+                    ImageIcon image1 = new ImageIcon(new ImageIcon(chosenPhotoLocation).getImage().
+                            getScaledInstance(100, 80, java.awt.Image.SCALE_SMOOTH));
+
+                    lblOfferPhoto.setIcon(image1);
                 }
 
             }
@@ -337,12 +344,14 @@ public class OffersForm extends JDialog{
 
 
     private void setcbChooseOffer() {
+        cbChooseOffer.removeAllItems();
         for (Offer rsm : listAllMenues) {
-            //if (rsm.getMenuIngredientList().size() > 1) {
                 cbChooseOffer.addItem(rsm.getRestaurant_menu_name());
-            //}
         }
     }
+
+
+
 
 
     private void setColumnsTable1() {

@@ -1084,11 +1084,29 @@ public class Broker {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        sql = "SELECT id_user FROM user_restaurant WHERE id_restaurant = ? and id_user not in (1,?)";
+
+        List<Integer>listUserID = new ArrayList<>();
+
+        Integer idUser = 0;
+//        sql = "SELECT id_user FROM user_restaurant WHERE id_restaurant = ?";
+//
+//        try {
+//            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+//            preparedStatement.setInt(1, idRestaurant);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()) {
+//                idUser = resultSet.getInt("id_user");
+//                listUserID.add(idUser);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+        sql = "SELECT ur.id_user from user_roles as ur INNER JOIN user as uu on uu.id_user = ur.id_user INNER JOIN user_restaurant as ut on uu.id_user=ut.id_user INNER JOIN restaurants as re " +
+                "on re.id_restaurant = ut.id_restaurant where ut.id_restaurant = ? and ur.id_role = 3";
         try {
             PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
             preparedStatement.setInt(1, idRestaurant);
-            preparedStatement.setInt(2, getid_user);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.first()) {
                 idManager = resultSet.getInt("id_user");
@@ -1172,4 +1190,32 @@ public class Broker {
 
         return listUserLogging;
     }
+
+    public void transferOrder(int idOrder, int idTableNew) throws SQLException {
+        String sql = "UPDATE order_offers SET id_table=? WHERE id_order = ?";
+        try {
+            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+            preparedStatement.setInt(1, idTableNew);
+            preparedStatement.setInt(2, idOrder);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+         sql = "DELETE from deleted_orders WHERE id_order = ?";
+        try {
+            PreparedStatement preparedStatement = SQLConnection.getInstance().getConnection().prepareStatement(sql);
+            preparedStatement.setInt(1, idOrder);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+
+
+
+
+
+
+
+    }
+
 }

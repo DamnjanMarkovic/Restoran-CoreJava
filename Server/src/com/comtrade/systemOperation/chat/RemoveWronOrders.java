@@ -25,19 +25,19 @@ public class RemoveWronOrders extends GenericSystemOperation {
        User user = (User) transferClass.getRequest();
         Broker broker = new Broker();
         String managerName = broker.getManagerNameBasedOnWaiterID(user.getid_user());
-        transferClass.setResponse(managerName);
         List<ClientThread> loggedUsersList = ControlerThread.getInstance().getListClients();
 
         for (ClientThread ct:loggedUsersList             ) {
             if (ct.getName().equalsIgnoreCase(managerName)){
+                transferClass.setResponse(ct.getName());
                 ct.send(transferClass);
             }
             if (ct.getName().equalsIgnoreCase("Mr Burns")){
-                transferClass.setResponse("Mr Burns");
+                transferClass.setResponse(ct.getName());
                 ct.send(transferClass);
             }
-
             if (ct.getName().equalsIgnoreCase(user.getuserFirstName())){
+                transferClass.setResponse(ct.getName());
                 ct.send(transferClass);
             }
         }

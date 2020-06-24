@@ -65,7 +65,7 @@ public class Receiver implements Callable<TransferClass> {
                         }
                     }
                     while (transferClass.getConstantsBLC().equals(ConstantsBLC.REMOVE_WRONG_ORDER)) {
-                        User user1 = (User) transferClass.getRequest();
+                            User user1 = (User) transferClass.getRequest();
                         if (!user1.getuserFirstName().equalsIgnoreCase(user.getuserFirstName())) {
                             JOptionPane.showMessageDialog(null, "Poruka za: " + transferClass.getResponse()
                                     + ": \n" + transferClass.getMessage() + "\nPorudzbina pod brojem: " + transferClass.getSpecialMessage() +
@@ -73,12 +73,13 @@ public class Receiver implements Callable<TransferClass> {
 
                             objectInputStream = new ObjectInputStream(socket.getInputStream());
                             transferClass = (TransferClass) objectInputStream.readObject();
-                        }
 
-                        else {
+
+                        } else {
                             break;
                         }
                     }
+
                     while (transferClass.getConstantsBLC().equals(ConstantsBLC.LOGGING_OFF)) {
 //                        User user1 = (User) transferClass.getRequest();
                         break;
@@ -91,6 +92,7 @@ public class Receiver implements Callable<TransferClass> {
 
                         objectInputStream = new ObjectInputStream(socket.getInputStream());
                         transferClass = (TransferClass) objectInputStream.readObject();
+                        break;
 
                     }
                     return transferClass;

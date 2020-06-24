@@ -47,8 +47,7 @@ public class OwnerForm extends JFrame{
         setDefaultLookAndFeelDecorated(true);
         setImages();
         lblUser.setIcon(getUserPhoto(user));
-        loggedUsersNames = getLoggedUsers();
-        setLoggedUsersNamesInLabel(loggedUsersNames);
+//        loggedUsersNames = getLoggedUsers();
 
 
 
@@ -76,8 +75,6 @@ public class OwnerForm extends JFrame{
                 try {
                     restaurantsForm = new RestaurantsForm(user);
                     restaurantsForm.setVisible(true);
-                } catch (InterruptedException | IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -102,31 +99,16 @@ public class OwnerForm extends JFrame{
 
             }
         });
-        btnLoggedUsers.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loggedUsersNames = getLoggedUsers();
-                setLoggedUsersNamesInLabel(loggedUsersNames);
 
-            }
-        });
         SENDMESSAGEButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
                 loggedUsersNames = getLoggedUsers();
-
                 ChatMessage chatMessage = new ChatMessage(user, listRestaurantStaff, loggedUsersNames);
                 chatMessage.setVisible(true);
             }
         });
-    }
-
-    private void setLoggedUsersNamesInLabel(List<String> loggedUsersNames) {
-        if (loggedUsersNames!=null) {
-            String namesString = prepareListUsersNames(loggedUsersNames);
-            lblLoggedUsers.setText(String.valueOf(namesString));
-        }
     }
 
 
@@ -155,19 +137,6 @@ public class OwnerForm extends JFrame{
 
     }
 
-    public String prepareListUsersNames(List<String> listNames){
-        StringBuilder sb = new StringBuilder();
-        if(listNames!=null) {
-            for (String str : listNames) {
-                sb.append(str).append(",");
-            }
-        }
-        if (sb!=null && sb.length()>0){
-            return sb.substring(0, sb.length() - 1) + ".";
-        } else return "NO LOGGED USERS";
-
-
-    }
 
 
 
