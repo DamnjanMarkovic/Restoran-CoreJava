@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ControlerThread {
 
@@ -46,8 +47,17 @@ public class ControlerThread {
 
     }
 
+    public boolean isLoggedIn(ClientThread clientThread, String name) {
+        boolean isLoggedIn = false;
+        if (loggedUsersNames.contains(name)){
+            isLoggedIn = true;
+        }
+        return isLoggedIn;
+    }
+
 
     public void setThreadName(ClientThread clientThread, String name, Integer userIDLOgged) throws IOException {
+
         for (ClientThread clientThread1 : listClients             ) {
             if (clientThread1.getClientSocket().equals(clientThread.getClientSocket())) {
                 clientThread.setName(name);
@@ -57,6 +67,7 @@ public class ControlerThread {
             }
         }
         updateLOggedUsersNames("User "+  name  + " logged-in.");
+
     }
 
     private void updateLOggedUsersNames(String message) {
@@ -125,6 +136,17 @@ public class ControlerThread {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ControlerThread that = (ControlerThread) o;
+        return listClients.equals(that.listClients) &&
+                socket.equals(that.socket);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(listClients, socket);
+    }
 }

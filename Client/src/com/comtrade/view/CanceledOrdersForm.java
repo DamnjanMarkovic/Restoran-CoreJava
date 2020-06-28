@@ -55,11 +55,6 @@ public class CanceledOrdersForm extends JDialog{
 
 
 
-
-
-
-
-
         CONFIRMORDERDELETIONButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

@@ -71,19 +71,25 @@ public class LoginForm extends JFrame{
                 try {
 
                     if (ifuserNameExists(userName)) {
-//                        System.out.println("ide u kreiranje usera");
+
                         transferClass = TransferClass.create(user, ConstantsFC.USER, ConstantsBLC.GET_LOGIN);
                         Proxy proxy = new ProxyLogin();
-//                        System.out.println("salje transferklasu za usera");
+
                         user = (User) ControlerFront.getFrontControler().execute(transferClass).getResponse();
-                        if (user!=null){
-                            System.out.println("Korisnik "+ user.getuserFirstName() + " se ulogovao");
+
+                        if(user.getuserFirstName().equalsIgnoreCase("AlreadyLoggedINUser")) {
+                        JOptionPane.showMessageDialog(null, "User already Logged IN!");
+
+                        } else {
+                            if(user.getuserFirstName()!=null){
+                            System.out.println("Korisnik " + user.getuserFirstName() + " se ulogovao");
                             proxy.login(user);
                             ControlerFront.getFrontControler().setUser(user);
-
                             dispose();
-                        }else {
+                        } else {
+                            System.out.println("ne");
                             JOptionPane.showMessageDialog(null, "You're almost there! \nPlease enter correct password!");
+                        }
                         }
                     } else {
                         int res = random.nextInt(ConstantsImages.WRONG_INPUT.infoWrongInput().size());

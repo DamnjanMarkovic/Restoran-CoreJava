@@ -5,6 +5,7 @@ import com.code.constants.Constants_IP_Port;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -24,9 +25,17 @@ public class ServerThread extends Thread {
 
                     Socket socket = serverSocket.accept();
                     ClientThread clientThread = new ClientThread(socket);
-                    ControlerThread.getInstance().addClientThread(clientThread);
+                    List<ClientThread> listClients = ControlerThread.getInstance().getListClients();
 
-                executorService.execute(clientThread);
+                        if(!listClients.contains(clientThread)){
+                            ControlerThread.getInstance().addClientThread(clientThread);
+                            executorService.execute(clientThread);
+                        } else {
+                            System.out.println("em");
+                        }
+
+
+
 
             }
         } catch (IOException e) {
@@ -39,3 +48,21 @@ public class ServerThread extends Thread {
     }
 
 }
+
+
+/*
+                   Socket socket = serverSocket.accept();
+                    ClientThread clientThread = new ClientThread(socket);
+                try {
+
+                    if(!ControlerThread.getInstance().getListClients().contains(clientThread)) {
+                        ControlerThread.getInstance().addClientThread(clientThread);
+                        executorService.execute(clientThread);
+                    }
+                } catch (Exception e){
+                    System.out.println("vec ste logovani");
+                }
+
+
+            }
+ */

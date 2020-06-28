@@ -761,10 +761,9 @@ public class Broker {
                 resultSet.getInt("quantity"), resultSet.getString("waiterName"), resultSet.getTimestamp("time"));
 
                 assert listPlus != null;
-                listPlus.add(orderDeletionDTO);
-
-
-
+                if(!listPlus.contains(orderDeletionDTO)) {
+                    listPlus.add(orderDeletionDTO);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -828,7 +827,9 @@ public class Broker {
                         resultSet.getInt("quantity"), resultSet.getString("waiterName"), resultSet.getTimestamp("time"), resultSet.getString("managerName"));
 
                 assert listPlus != null;
-                listPlus.add(orderDeletionDTO);
+                if (!listPlus.contains(orderDeletionDTO)) {
+                    listPlus.add(orderDeletionDTO);
+                }
 
 
 
